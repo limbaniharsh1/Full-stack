@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Products from "../Product";
 import {
@@ -12,15 +12,25 @@ import {
 import Rating from "../Components/Rating";
 import products from "../Product";
 import { ArrowBarLeft, ArrowLeft, Back } from "react-bootstrap-icons";
+import axios from "axios";
 
-const ProductsDetail = () => {
+const ProductsDetail = ({match}) => {
   let { id } = useParams();
-  let pro;
-  let getdata = async () => {
-    pro = products.find((p) => p._id === id);
-    console.log(pro);
-  };
-  getdata();
+  // let pro;
+  // let getdata = async () => {
+  //   pro = products.find((p) => p._id === id);
+  //   console.log(pro);
+  // };
+  // getdata();
+  let[pro,setPro]=useState([])
+  useEffect(() => {
+    const fetchproduct = async ()=>{
+      const {data} = await axios.get(`http://localhost:8000/products/${id}`)
+      setPro(data)
+    }
+    fetchproduct()
+  }, [])
+  
   return (
     <div>
       <Row>
